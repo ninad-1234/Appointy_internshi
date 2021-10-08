@@ -20,7 +20,6 @@ func userDataHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal("Error reading the body", err)
 	}
-	log.Printf("Received: %v\n", location)
 	
 	User_data := userData{
 		Id: 	   "ninad0104",
