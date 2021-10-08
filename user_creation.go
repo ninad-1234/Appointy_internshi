@@ -16,10 +16,9 @@ type userData struct {
 
 func userDataHandler(w http.ResponseWriter, r *http.Request) {
 	
-	jsn, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		log.Fatal("Error reading the body", err)
-	}
+	url := "http://localhost:8000/post"
+	var username = []byte(`{"Id":"ninad0104"}`)
+    	req, err := http.NewRequest("POST", url, bytes.NewBuffer(username))
 	
 	User_data := userData{
 		Id: 	   "ninad0104",
@@ -28,18 +27,23 @@ func userDataHandler(w http.ResponseWriter, r *http.Request) {
 		Password:  "nt1004$",
 		},
 	}
+	server(req)
 // Above userData is input from the UI
 
 }
 	
 
-func server() {
-	http.HandleFunc("/", userDataHandler)
-	http.ListenAndServe(":8088", nil)
+func server(string req) {
+	client := &http.Client{}
+    	resp, err := client.Do(req)
+    	if err != nil {
+            panic(err)
+        }
+    defer resp.Body.Close()
 	//Redirect to Home page 
 }
 
 func main() {
-	go server()
+	go userDataHandler()
 
 }
