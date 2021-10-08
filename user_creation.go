@@ -14,27 +14,30 @@ type userData struct {
 	Password  string   `json: password`
 }
 
-func weatherHandler(w http.ResponseWriter, r *http.Request) {
+func userDataHandler(w http.ResponseWriter, r *http.Request) {
 	
 	jsn, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		log.Fatal("Error reading the body", err)
 	}
-	err = json.Unmarshal(jsn, &location)
-	if err != nil {
-		log.Fatal("Decoding error: ", err)
-	}
 	log.Printf("Received: %v\n", location)
 	
-
-
+	User_data := userData{
+		Id: 	   "ninad0104",
+		Name:      "Ninad Topale",
+		Email:     "topaleninad01@gmail.com",
+		Password:  "nt1004$",
+		},
+	}
+// Above userData is input from the UI
 
 }
 	
 
 func server() {
-	http.HandleFunc("/", weatherHandler)
+	http.HandleFunc("/", userDataHandler)
 	http.ListenAndServe(":8088", nil)
+	//Redirect to Home page 
 }
 
 func main() {
