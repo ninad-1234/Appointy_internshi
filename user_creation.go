@@ -7,21 +7,37 @@ import (
 	"log"
 	"net/http"
 ) 
-type weatherData struct {
-	LocationName string   `json: locationName`
-	Weather      string   `json: weather`
-	Temperature  int      `json: temperature`
-	Celsius      bool     `json: celsius`
-	TempForecast []int    `json: temp_forecast`
-	Wind         windData `json: wind`
+type userData struct {
+	ID 	  string   `json: id`
+	Name      string   `json: name`
+	Email     string   `json: email`
+	Password  string   `json: password`
 }
 
-type windData struct {
-	Direction string `json: direction`
-	Speed     int    `json: speed`
+func weatherHandler(w http.ResponseWriter, r *http.Request) {
+	
+	jsn, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		log.Fatal("Error reading the body", err)
+	}
+	err = json.Unmarshal(jsn, &location)
+	if err != nil {
+		log.Fatal("Decoding error: ", err)
+	}
+	log.Printf("Received: %v\n", location)
+	
+
+
+
+}
+	
+
+func server() {
+	http.HandleFunc("/", weatherHandler)
+	http.ListenAndServe(":8088", nil)
 }
 
-type loc struct {
-	Lat float32 `json: lat`
-	Lon float32 `json: lon`
+func main() {
+	go server()
+
 }
