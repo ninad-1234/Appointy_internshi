@@ -1,5 +1,12 @@
 package main
-
+import (
+	"bytes"
+	"encoding/json"
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+) 
 type weatherData struct {
 	LocationName string   `json: locationName`
 	Weather      string   `json: weather`
