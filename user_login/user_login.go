@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -48,23 +47,34 @@ func main() {
 	col := client.Database("Instagram_Database").Collection("User COllection")
 	fmt.Println("Collection type:", reflect.TypeOf(col), "\n")
 
-	// Declare an empty array to store documents returned
-	var result MongoField
-
-	// Get a MongoDB document using the FindOne() method
-	err = col.FindOne(context.TODO(), bson.D{}).Decode(&result)
-
 	// Hard code user input :-
 	ip_id := "ninad010#"
 	ip_psw := "ninad10$"
 
+	cursor, err := col.Find(context.TODO(), bson.D{})
 	if err != nil {
-		fmt.Println("FindOne() ERROR:", err)
-		os.Exit(1)
-	} else {
-		if ip_id == result.ID && ip_psw == result.Password {
-			server(ip_id)
+        fmt.Println("Finding all documents ERROR:", err)
+        defer cursor.Close(ctx)
 
+    // If the API call was a success
+    } else{
+		for cursor.Next(ctx) {
+			var result bson.M
+			err := cursor.Decode(&result)
+			if err != nil {
+                fmt.Println("cursor.Next() error:", err)
+                os.Exit(1)
+               
+            // If there are no cursor.Decode errors
+            }else {
+                if ip_id == result.ID && ip_psw == result.Password {
+
+					server(ip_id)
+				}
+            }
 		}
 	}
+
+
+
 }
