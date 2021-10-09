@@ -1,4 +1,3 @@
-
 package main
 
 import (
@@ -26,6 +25,7 @@ func server(userDB MongoField){
 	const url ="http://localhost:8000/post"
 	var  byte  = []byte(userDB.Name)
 	req, err := http.NewRequest("POST", url, byte)
+	print(req,err)
 }
 
 func main() {
@@ -56,12 +56,8 @@ func main() {
 		fmt.Println("InsertONE Error:", insertErr)
 		os.Exit(1)
 	} else {
+		server(MongoField{})
 		fmt.Println("InsertOne() result type: ", reflect.TypeOf(result))
-		fmt.Println("InsertOne() api result type: ", result)
-
-		newID := result.InsertedID
-		fmt.Println("InsertedOne(), newID", newID)
-		fmt.Println("InsertedOne(), newID type:", reflect.TypeOf(newID))
 
 	}
 }
